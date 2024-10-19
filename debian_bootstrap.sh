@@ -100,6 +100,8 @@ set +x
     #Info
      "${FIM_TMPDIR}/debian.flatimage" fim-env add 'FIM_DIST=debian' 2>/dev/null
      "${FIM_TMPDIR}/debian.flatimage" fim-env list 2>/dev/null
+     "${FIM_TMPDIR}/debian.flatimage" fim-perms add "audio,dbus_user,dbus_system,gpu,home,input,media,network,udev,usb,xorg,wayland"
+     "${FIM_TMPDIR}/debian.flatimage" fim-perms list
      "${FIM_TMPDIR}/debian.flatimage" fim-commit
   fi
   unset ROOTFS_DIR

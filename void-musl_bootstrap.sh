@@ -96,6 +96,8 @@ set +x
     #Info
      "${FIM_TMPDIR}/void-musl.flatimage" fim-env add 'FIM_DIST=void-musl' 2>/dev/null
      "${FIM_TMPDIR}/void-musl.flatimage" fim-env list 2>/dev/null
+     "${FIM_TMPDIR}/void-musl.flatimage" fim-perms add "audio,dbus_user,dbus_system,gpu,home,input,media,network,udev,usb,xorg,wayland"
+     "${FIM_TMPDIR}/void-musl.flatimage" fim-perms list
      "${FIM_TMPDIR}/void-musl.flatimage" fim-commit
   fi
   unset ROOTFS_DIR
