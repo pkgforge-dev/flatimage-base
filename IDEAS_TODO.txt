@@ -1,3 +1,29 @@
 #Proprietary GPU Drivers Ubuntu: https://github.com/NatoBoram/FirstRun/blob/main/Linux/Ubuntu.sh
 https://launchpad.net/~graphics-drivers/+archive/ubuntu/ppa
 sudo add-apt-repository -y ppa:graphics-drivers/ppa
+
+
+
+
+
+#Steam on VOid
+#Bootstrap
+"${FIMG_BASE}" fim-perms add "audio,dbus_user,dbus_system,gpu,home,input,media,network,udev,usb,xorg,wayland"
+"${FIMG_BASE}" fim-perms list
+"${FIMG_BASE}" fim-root bash -c '
+ #Enable Repos
+ xbps-install void-repo-multilib void-repo-multilib-nonfree void-repo-nonfree --sync --update --yes
+ #Install Deps
+ packages="alsa-utils alsa-lib alsa-plugins-pulseaudio alsa-ucm-conf bash binutils curl fakeroot git glibc-32bit intel-media-driver intel-video-accel libcurl libcurl-32bit libdrm-32bit libgcc-32bit libglvnd-32bit libjack-pipewire libpipewire libpulseaudio libstdc++-32bit libva-intel-driver libusb libxkbcommon libxkbcommon-tools libxkbcommon-x11 MangoHud mesa mesa-dri-32bit mesa-nouveau-dri mesa-vaapi mesa-vdpau mesa-vulkan-intel mesa-vulkan-lavapipe nv-codec-headers pipewire pulseaudio SDL2 Vulkan-Tools vulkan-loader wget wireplumber xf86-video-nouveau"
+ for pkg in $packages; do xbps-install "$pkg" --sync --update --yes ; done
+ #Finally Install steam
+ xbps-install steam --sync --update --yes
+ xbps-remove --clean-cache --remove-orphans --recursive --verbose
+'
+#ENV
+"${FIMG_BASE}" fim-exec mkdir -p "/home/steam"
+"${FIMG_BASE}" fim-env add 'USER=steam' 'HOME=/home/steam' 'XDG_CONFIG_HOME=/home/steam/.config' 'XDG_DATA_HOME=/home/steam/.local/share'
+"${FIMG_BASE}" fim-env list
+"${FIMG_BASE}" fim-boot "/usr/sbin/steam"
+#Create
+"${FIMG_BASE}" fim-commit

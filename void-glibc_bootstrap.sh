@@ -38,6 +38,11 @@ set +x
        du -sh "${ROOTFS_DIR}"
        echo -e "nameserver 8.8.8.8\nnameserver 2620:0:ccc::2" | sudo tee "${ROOTFS_DIR}/etc/resolv.conf"
        echo -e "nameserver 1.1.1.1\nnameserver 2606:4700:4700::1111" | sudo tee -a "${ROOTFS_DIR}/etc/resolv.conf"
+       sudo unlink "${ROOTFS_DIR}/var/lib/dbus/machine-id" 2>/dev/null
+       sudo unlink "${ROOTFS_DIR}/etc/machine-id" 2>/dev/null
+       sudo rm -rvf "${ROOTFS_DIR}/etc/machine-id"
+       sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" "/bin/bash" -c 'systemd-machine-id-setup --print 2>/dev/null' | sudo tee "${ROOTFS_DIR}/var/lib/dbus/machine-id"
+       sudo ln --symbolic --force --relative "${ROOTFS_DIR}/var/lib/dbus/machine-id" "${ROOTFS_DIR}/etc/machine-id"
        echo "LANG=en_US.UTF-8" | sudo tee "${ROOTFS_DIR}/etc/locale.conf"
        echo "LANG=en_US.UTF-8" | sudo tee -a "${ROOTFS_DIR}/etc/locale.conf"
        echo "LANGUAGE=en_US:en" | sudo tee -a "${ROOTFS_DIR}/etc/locale.conf"
@@ -48,6 +53,7 @@ set +x
        #packages="alsa-utils alsa-lib alsa-plugins-pulseaudio alsa-ucm-conf bash binutils curl fakeroot git intel-media-driver intel-video-accel libjack-pipewire libpipewire libpulseaudio libva-intel-driver libusb libxkbcommon libxkbcommon-tools libxkbcommon-x11 MangoHud mesa mesa-nouveau-dri mesa-vaapi mesa-vdpau mesa-vulkan-intel mesa-vulkan-lavapipe nv-codec-headers pipewire pulseaudio SDL2 Vulkan-Tools vulkan-loader wget wireplumber xf86-video-nouveau"
        #for pkg in $packages; do sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" "/bin/bash" -c "xbps-install "$pkg" --sync --update --yes" ; done
        sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" /bin/sh -c 'xbps-install bash binutils curl fakeroot sudo wget --sync --update --yes'
+       sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" /bin/sh -c 'xbps-install void-repo-multilib void-repo-multilib-nonfree void-repo-nonfree --sync --update --yes'
        sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" /bin/sh -c 'xbps-query --list-pkgs'
        sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" /bin/sh -c 'xbps-remove --clean-cache'
        sudo find "${ROOTFS_DIR}/boot" -mindepth 1 -delete 2>/dev/null

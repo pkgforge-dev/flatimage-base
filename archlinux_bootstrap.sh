@@ -69,6 +69,11 @@ set +x
        sudo sed '/#\[multilib\]/,/#Include = .*/s/^#//' -i "${ROOTFS_DIR}/etc/pacman.conf"
        echo -e "nameserver 8.8.8.8\nnameserver 2620:0:ccc::2" | sudo tee "${ROOTFS_DIR}/etc/resolv.conf"
        echo -e "nameserver 1.1.1.1\nnameserver 2606:4700:4700::1111" | sudo tee -a "${ROOTFS_DIR}/etc/resolv.conf"
+       sudo unlink "${ROOTFS_DIR}/var/lib/dbus/machine-id" 2>/dev/null
+       sudo unlink "${ROOTFS_DIR}/etc/machine-id" 2>/dev/null
+       sudo rm -rvf "${ROOTFS_DIR}/etc/machine-id"
+       sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" "/bin/bash" -c 'systemd-machine-id-setup --print 2>/dev/null' | sudo tee "${ROOTFS_DIR}/var/lib/dbus/machine-id"
+       sudo ln --symbolic --force --relative "${ROOTFS_DIR}/var/lib/dbus/machine-id" "${ROOTFS_DIR}/etc/machine-id"
        sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" "/bin/bash" -c 'pacman -Scc --noconfirm'
        sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" "/bin/bash" -c 'pacman -Syyu archlinux-keyring pacutils --noconfirm'
        sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" "/bin/bash" -c 'pacman-key --init'
