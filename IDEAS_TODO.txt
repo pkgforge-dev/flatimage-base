@@ -1,0 +1,3 @@
+#Proprietary GPU Drivers Ubuntu: https://github.com/NatoBoram/FirstRun/blob/main/Linux/Ubuntu.sh
+https://launchpad.net/~graphics-drivers/+archive/ubuntu/ppa
+sudo add-apt-repository -y ppa:graphics-drivers/ppa

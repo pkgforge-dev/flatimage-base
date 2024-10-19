@@ -77,6 +77,16 @@ jobs:
              cd "/tmp/FLATIMAGES" && find "." -type f  | xargs realpath
              find "./" -maxdepth 1 -type f | sort | grep -v -E '\.tar$|\.txt$|\.xz$' | xargs file | sort -u -o "./FILE.txt"
              find "./" -maxdepth 1 -type f | sort | grep -v -E '\.tar$|\.txt$|\.xz$' | xargs sha256sum | sort -u -o "./SHA256SUM.txt"
+             #INFO
+             readarray -d '' FIM_IMGS < <(find "." -name '*.flatimage' -print0)
+             for FIM_IMG in "${FIM_IMGS[@]}"; do
+                 FIM_IMG_B="${FIM_IMG%.flatimage}"
+                 {
+                     "${FIM_IMG}" fim-root cat "/etc/os-release"
+                     "${FIM_IMG}" fim-root ldd --version
+                 } &> "${FIM_IMG_B}.txt"
+             done
+             #GH ENV
              export HAS_RELEASE="TRUE"
              echo "HAS_RELEASE=${HAS_RELEASE}" >> "${GITHUB_ENV}"
           else
