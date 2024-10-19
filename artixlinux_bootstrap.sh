@@ -76,9 +76,9 @@ set +x
        #packages="alsa-lib alsa-plugins alsa-tools alsa-utils binutils fakeroot fakechroot git intel-media-driver lib32-alsa-lib lib32-mesa lib32-alsa-plugins lib32-libpulse libva-intel-driver lib32-libva-intel-driver lib32-libva-mesa-driver lib32-libvdpau lib32-mesa-utils lib32-nvidia-utils lib32-pipewire lib32-pipewire-jack lib32-sdl2 lib32-vulkan-icd-loader lib32-vulkan-intel lib32-vulkan-mesa-layers lib32-vulkan-radeon lib32-libxkbcommon libpulse libusb libva-mesa-driver libva-utils libvdpau libxkbcommon mesa mesa-utils nvidia-prime nvidia-utils pipewire pipewire-alsa pipewire-jack pipewire-pulse sdl2 vulkan-icd-loader vulkan-intel vulkan-mesa-layers vulkan-radeon vulkan-tools wireplumber"
        #for pkg in $packages; do sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" "/bin/bash" -c "pacman -Sy "$pkg" --needed --noconfirm" ; done
        sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" "/bin/bash" -c 'pacman -Sy bash binutils curl fakeroot sudo wget --needed --noconfirm'
-       sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" "/bin/bash" -c 'pacman -Rsndd base-devel --noconfirm'
-       sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" "/bin/bash" -c 'pacman -Rsndd perl --noconfirm'
-       sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" "/bin/bash" -c 'pacman -Rsndd python --noconfirm'
+       sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" "/bin/bash" -c 'pacman -Rsn base-devel --noconfirm'
+       sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" "/bin/bash" -c 'pacman -Rsn perl --noconfirm'
+       sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" "/bin/bash" -c 'pacman -Rsn python --noconfirm'
        sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" "/bin/bash" -c 'pacman -Scc --noconfirm'
        sudo rm -rfv "${ROOTFS_DIR}/usr/share/gtk-doc/"* 2>/dev/null
        sudo rm -rfv "${ROOTFS_DIR}/usr/share/man/"* 2>/dev/null
