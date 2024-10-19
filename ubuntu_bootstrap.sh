@@ -47,7 +47,7 @@ set +x
        sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" /bin/sh -c 'chown -R _apt:root /var/cache/apt/archives/partial/'
        sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" /bin/sh -c 'dpkg-statoverride --remove /usr/bin/crontab'
        sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" /bin/sh -c 'DEBIAN_FRONTEND="noninteractive" apt update -y'
-       sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" /bin/sh -c 'DEBIAN_FRONTEND="noninteractive" apt install bash binutils coreutils curl fakeroot git locales wget -y --no-install-recommends --ignore-missing'
+       sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" /bin/sh -c 'DEBIAN_FRONTEND="noninteractive" apt install bash binutils coreutils curl fakeroot git locales sudo wget -y --no-install-recommends --ignore-missing'
        sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" /bin/sh -c 'locale-gen "en_US.UTF-8"'
        sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" /bin/sh -c 'echo "debconf debconf/frontend select Noninteractive" | debconf-set-selections'
        sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" /bin/sh -c 'apt purge locales perl -y ; apt autoremove -y ; apt autoclean -y'

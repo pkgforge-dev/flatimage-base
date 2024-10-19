@@ -57,7 +57,7 @@ set +x
        find "${ROOTFS_DIR}/bin" "${ROOTFS_DIR}/usr/bin" -type l -exec sudo sh -c 'echo "{} -> $(readlink "{}")"' \;
        sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" /bin/sh -c 'apk update --no-interactive'
        sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" /bin/sh -c 'apk upgrade --no-interactive'
-       sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" /bin/sh -c 'apk add bash curl fakeroot wget --latest --upgrade --no-interactive'
+       sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" /bin/sh -c 'apk add bash binutils curl fakeroot sudo wget --latest --upgrade --no-interactive'
        #sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" /bin/sh -c 'apk add bash alsa-utils alsa-utils-doc alsa-lib alsaconf alsa-ucm-conf pulseaudio pulseaudio-alsa --latest --upgrade --no-interactive'
        sudo rm -rfv "${ROOTFS_DIR}/"{tmp,proc,sys,dev,run}
        sudo mkdir -pv "${ROOTFS_DIR}/"{tmp,proc,sys,dev,run/media,mnt,media,home}
