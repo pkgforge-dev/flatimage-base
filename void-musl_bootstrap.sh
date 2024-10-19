@@ -7,11 +7,10 @@
 set -x
 #Sanity Checks
 if [ -z "${FIM_SRCDIR}" ] || \
-   [ -z "${BINDIR}" ] || \
    [ -z "${FIM_BINDIR}" ] || \
    [ -z "${FIM_IMGDIR}" ]; then
  #exit
-  echo -e "\n[+]Skipping Builds...\n"
+  echo -e "\n[+] Skipping Builds...\n"
   exit 1
 fi
 if [ ! -d "${FIM_BINDIR}" ] || [ $(du -s "${FIM_BINDIR}" | cut -f1) -le 1000 ]; then
