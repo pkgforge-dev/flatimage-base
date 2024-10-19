@@ -1,5 +1,5 @@
 ```mathematica
-108K └─┬ main
+112K └─┬ main
  16K   ├── build.sh
  12K   ├── cachyos_bootstrap.sh
  12K   ├── artixlinux_bootstrap.sh
@@ -11,5 +11,6 @@
 8.0K   ├── alpine_bootstrap.sh
 4.0K   ├── blueprint_bootstrap.sh
 4.0K   ├── archlinux_hooks.sh
-4.0K   └── README.md
+4.0K   ├── README.md
+4.0K   └── IDEAS_TODO.txt
 ```
