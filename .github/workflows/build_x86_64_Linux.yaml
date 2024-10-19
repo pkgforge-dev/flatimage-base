@@ -43,9 +43,6 @@ jobs:
           mkdir -p "${HOME}/bin"
           sudo apt update -y
           sudo apt install dos2unix -y
-          ###Setup rClone
-          #mkdir -p "${HOME}/.config/rclone"
-          #echo "${{ secrets.RCLONE_CF_R2_PUB }}" > "${HOME}/.config/rclone/rclone.conf"
           ##User-Agent
           USER_AGENT="$(curl -qfsSL 'https://pub.ajam.dev/repos/Azathothas/Wordlists/Misc/User-Agents/ua_chrome_macos_latest.txt')" && export USER_AGENT="${USER_AGENT}"
           echo "USER_AGENT=${USER_AGENT}" >> "${GITHUB_ENV}"
