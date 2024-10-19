@@ -156,7 +156,7 @@ jobs:
         if: env.HAS_RELEASE == 'TRUE'
         uses: softprops/action-gh-release@v2.0.8
         with:
-          name: "FLATIMAGE-(${{ env.FIM_VERSION}})-${{ env.UTC_TIME }} "
+          name: "FLATIMAGE-(${{ env.FIM_VERSION}})-${{ env.UTC_TIME }}-${{ env.B_ARCH }}"
           tag_name: "${{ env.UTC_TIME }}-${{ env.B_ARCH }}"
           prerelease: false
           draft: false
