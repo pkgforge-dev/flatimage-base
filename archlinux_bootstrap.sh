@@ -47,7 +47,7 @@ set +x
     --max-tries="10" --retry-wait="5" --connect-timeout="60" --timeout="600" \
     --download-result="default" --allow-overwrite --out="./ROOTFS.tar.gz" 2>/dev/null
     mkdir -pv "./rootfs" && export ROOTFS_DIR="$(realpath "./rootfs")"
-    bsdtar -x -f "./ROOTFS.tar.gz" -C "${ROOTFS_DIR}" --strip-components=1 2>/dev/null
+    bsdtar -x -f "./ROOTFS.tar.gz" -C "${ROOTFS_DIR}" 2>/dev/null
    fi
   if [ -d "${ROOTFS_DIR}" ] && [ $(du -s "${ROOTFS_DIR}" | cut -f1) -gt 10000 ]; then
     if [ -n "${ROOTFS_DIR+x}" ] && [[ "${ROOTFS_DIR}" == "/tmp"* ]]; then
