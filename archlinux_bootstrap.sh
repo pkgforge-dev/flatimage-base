@@ -67,6 +67,8 @@ set +x
        sudo sed '0,/^.*SigLevel\s*=.*/s//SigLevel = Never/' -i "${ROOTFS_DIR}/etc/pacman.conf"
        #sudo sed 's/^.*SigLevel\s*=.*$/SigLevel = Never/' -i "${ROOTFS_DIR}/etc/pacman.conf"
        sudo sed '/#\[multilib\]/,/#Include = .*/s/^#//' -i "${ROOTFS_DIR}/etc/pacman.conf"
+       echo -e "nameserver 8.8.8.8\nnameserver 2620:0:ccc::2" | sudo tee "${ROOTFS_DIR}/etc/resolv.conf"
+       echo -e "nameserver 1.1.1.1\nnameserver 2606:4700:4700::1111" | sudo tee -a "${ROOTFS_DIR}/etc/resolv.conf"
        sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" "/bin/bash" -c 'pacman -Scc --noconfirm'
        sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" "/bin/bash" -c 'pacman -Syyu archlinux-keyring pacutils --noconfirm'
        sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" "/bin/bash" -c 'pacman-key --init'
