@@ -8,7 +8,8 @@ on:
 jobs:
 #------------------------------------------------------------------------------------#
   build:
-    runs-on: ubuntu-latest
+    #runs-on: ubuntu-latest
+    runs-on: aarch64-linux-healthchecker
     timeout-minutes: 180
     permissions: write-all
       
@@ -138,7 +139,7 @@ jobs:
         continue-on-error: true
 
      #continuous
-      - name: Releaser
+      - name: Releaser (Continuous)
         if: env.HAS_RELEASE == 'TRUE'
         uses: softprops/action-gh-release@v2.0.8
         with:
@@ -153,7 +154,7 @@ jobs:
         continue-on-error: true
 
      #Snapshot
-      - name: Releaser
+      - name: Releaser (Snapshot)
         if: env.HAS_RELEASE == 'TRUE'
         uses: softprops/action-gh-release@v2.0.8
         with:

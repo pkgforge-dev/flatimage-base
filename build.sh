@@ -227,7 +227,12 @@ sudo rsync -achLv "${FIM_IMGDIR}/." "${SYSTMP}/FLATIMAGES"
 sudo chown -R "$(whoami):$(whoami)" "${SYSTMP}/FLATIMAGES" && chmod -R 755 "${SYSTMP}/FLATIMAGES"
 find "${SYSTMP}/FLATIMAGES" -type f | xargs -I {} sh -c 'file {}; sha256sum {}; du -sh {}'
 ls -lah "${SYSTMP}/FLATIMAGES"
-echo -e "\n[+] PURGING Logs & Output in 180 Seconds... (Hit Ctrl + C)\n"
-echo -e "\n[+] Delete Manually: sudo rm -rfv ${FIM_SRCDIR}\n" ; sleep 180
-rm -rfv "${FIM_SRCDIR}" 2>/dev/null
+if [ "${USER}" = "runner" ] || [ "$(whoami)" = "runner" ] && [ -s "/opt/runner/provisioner" ]; then
+   echo -e "\n[+] Detected GH Actions... Preserving Logs & Output\n"
+   echo -e "\n[+] Delete Manually: sudo rm -rfv ${FIM_SRCDIR}\n"
+ else
+   echo -e "\n[+] PURGING Logs & Output in 180 Seconds... (Hit Ctrl + C)\n"
+   echo -e "\n[+] Delete Manually: sudo rm -rfv ${FIM_SRCDIR}\n" ; sleep 180
+   rm -rfv "${FIM_SRCDIR}" 2>/dev/null
+fi
 #-------------------------------------------------------#
