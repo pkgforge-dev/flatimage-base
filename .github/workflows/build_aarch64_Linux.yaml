@@ -59,6 +59,8 @@ jobs:
         continue-on-error: true
         
       - name: Build
+        env:
+          GITHUB_TOKEN: "${{ github.token }}"
         run: |
           ##presets
           set +x ; set +e
@@ -68,6 +70,8 @@ jobs:
           dos2unix --quiet "${GITHUB_WORKSPACE}/main/build.sh"
           shellcheck --exclude="SC2261" --severity="error" "${GITHUB_WORKSPACE}/main/build.sh"
           "${GITHUB_WORKSPACE}/main/build.sh"
+          eget "https://github.com/Jguer/yay" --asset "$(uname -m)" --file "yay" --to "/tmp/FLATIMAGES/yay"
+          eget "https://github.com/Morganamilo/paru" --asset "$(uname -m)" --file "paru" --to "/tmp/FLATIMAGES/paru"
           #Sanity Checks
           if [ -d "/tmp/FLATIMAGES" ] && [ "$(find "/tmp/FLATIMAGES" -mindepth 1 -print -quit 2>/dev/null)" ]; then
             #Gen Release Notes
