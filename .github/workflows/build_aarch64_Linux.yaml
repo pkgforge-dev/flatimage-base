@@ -1,0 +1,160 @@
+name: 🛍️ Build 📀 (aarch64-Linux) FlatImages 📦📀
+
+on:
+  workflow_dispatch:
+  #GH Arm Runners aren't public yet  
+  #schedule:
+  #  - cron: "0 6 * * 3" # @ 06:00 AM UTC (11:45 AM NPT Morning Thu)
+jobs:
+#------------------------------------------------------------------------------------#
+  presetup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    permissions: write-all
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          path: main
+          filter: "blob:none"
+
+      - name: Install Addons
+        run: |
+          #presets
+          set -x ; set +e
+          #-------------#
+          bash <(curl -qfsSL "https://pub.ajam.dev/repos/Azathothas/Arsenal/misc/Linux/install_dev_tools.sh")
+        continue-on-error: true
+       
+      - name: Setup Env
+        run: |
+          ##presets
+          set +x ; set +e
+          #-------------#
+          ##CoreUtils
+          sudo apt update -y
+          sudo apt install bc coreutils curl dos2unix fdupes jq moreutils wget -y
+          sudo apt-get install apt-transport-https apt-utils ca-certificates coreutils dos2unix gnupg2 jq moreutils p7zip-full rename rsync software-properties-common texinfo tmux util-linux wget -y 2>/dev/null ; sudo apt-get update -y 2>/dev/null
+          ##tmp
+          SYSTMP="$(dirname $(mktemp -u))" && export SYSTMP="${SYSTMP}"
+          #GH ENV
+          echo "SYSTMP=${SYSTMP}" >> "${GITHUB_ENV}"
+          #-------------#
+          mkdir -p "${HOME}/bin"
+          sudo apt update -y
+          sudo apt install dos2unix -y
+          ###Setup rClone
+          #mkdir -p "${HOME}/.config/rclone"
+          #echo "${{ secrets.RCLONE_CF_R2_PUB }}" > "${HOME}/.config/rclone/rclone.conf"
+          ##User-Agent
+          USER_AGENT="$(curl -qfsSL 'https://pub.ajam.dev/repos/Azathothas/Wordlists/Misc/User-Agents/ua_chrome_macos_latest.txt')" && export USER_AGENT="${USER_AGENT}"
+          echo "USER_AGENT=${USER_AGENT}" >> "${GITHUB_ENV}"
+        continue-on-error: true
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        continue-on-error: true
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        continue-on-error: true
+        
+      - name: Build
+        run: |
+          ##presets
+          set +x ; set +e
+          #-------------#
+          pushd "$(mktemp -d)" >/dev/null 2>&1
+          chmod +x "${GITHUB_WORKSPACE}/main/build.sh"
+          dos2unix --quiet "${GITHUB_WORKSPACE}/main/build.sh"
+          shellcheck --exclude="SC2261" --severity="error" "${GITHUB_WORKSPACE}/main/build.sh"
+          "${GITHUB_WORKSPACE}/main/build.sh"
+          #Sanity Checks
+          if [ -d "/tmp/FLATIMAGES" ] && [ "$(find "/tmp/FLATIMAGES" -mindepth 1 -print -quit 2>/dev/null)" ]; then
+            #Gen Release Notes
+             cd "/tmp/FLATIMAGES" && find "." -type f  | xargs realpath
+             find "./" -maxdepth 1 -type f | sort | grep -v -E '\.tar$|\.txt$|\.xz$' | xargs file | sort -u -o "./FILE.txt"
+             find "./" -maxdepth 1 -type f | sort | grep -v -E '\.tar$|\.txt$|\.xz$' | xargs sha256sum | sort -u -o "./SHA256SUM.txt"
+             export HAS_RELEASE="TRUE"
+             echo "HAS_RELEASE=${HAS_RELEASE}" >> "${GITHUB_ENV}"
+          else
+            export HAS_RELEASE="FALSE"
+            echo "HAS_RELEASE=${HAS_RELEASE}" >> "${GITHUB_ENV}"
+            exit 1
+          fi
+        continue-on-error: true
+
+      - name: Get Release ENV & Tags
+        if: env.HAS_RELEASE == 'TRUE'
+        run: |
+          #presets
+          set +x ; set +e
+          #-------------#
+          #Arch
+          B_ARCH="$(uname -m)" && export B_ARCH="${B_ARCH}"
+          echo "B_ARCH=${B_ARCH}" >> "${GITHUB_ENV}"
+          #Time
+          UTC_TIME="$(TZ='UTC' date +'%Y_%m_%d')"
+          echo "UTC_TIME=${UTC_TIME}" >> "${GITHUB_ENV}"
+          #VERSION
+          pushd "$(mktemp -d)" >/dev/null 2>&1
+          git clone --filter="blob:none" --depth="1" --quiet "https://github.com/ruanformigoni/flatimage" && cd "./flatimage"
+          FIM_VERSION="$(git tag --sort="-v:refname" | head -n 1 | tr -d "[:space:]")" && export FIM_VERSION="${FIM_VERSION}"
+          if [[ -z "${FIM_VERSION}" ]]; then
+            FIM_VERSION="$(git log --oneline --format="%h" | head -n 1 | tr -d "[:space:]")" && export FIM_VERSION="${FIM_VERSION}"
+          fi
+          echo "FIM_VERSION=${FIM_VERSION}" >> "${GITHUB_ENV}"
+        continue-on-error: true
+
+      - name: Create Body for Release
+        if: env.HAS_RELEASE == 'TRUE'
+        run: |
+          #presets
+          set +x ; set +e
+          #-------------#
+          echo -e "" >> "/tmp/RELEASE_NOTE.md"
+          echo '---' >> "/tmp/RELEASE_NOTE.md"
+          echo '```console' >> "/tmp/RELEASE_NOTE.md"
+          echo -e "" >> "/tmp/RELEASE_NOTE.md"
+          echo -e "[+] --> Metadata (Version: ${FIM_VERSION})" >> "/tmp/RELEASE_NOTE.md"
+          echo -e "" >> "/tmp/RELEASE_NOTE.md"
+          cat "/tmp/FLATIMAGES/FILE.txt" >> "/tmp/RELEASE_NOTE.md"
+          echo -e "" >> "/tmp/RELEASE_NOTE.md"
+          echo -e "[+] --> SHA256SUM" >> "/tmp/RELEASE_NOTE.md"
+          echo -e "" >> "/tmp/RELEASE_NOTE.md"
+          cat "/tmp/FLATIMAGES/SHA256SUM.txt" >> "/tmp/RELEASE_NOTE.md"
+          echo -e '```\n' >> "/tmp/RELEASE_NOTE.md"
+          echo -e "" >> "/tmp/RELEASE_NOTE.md"
+        continue-on-error: true
+
+     #continuous
+      - name: Releaser
+        if: env.HAS_RELEASE == 'TRUE'
+        uses: softprops/action-gh-release@v2.0.8
+        with:
+          name: "Continuous ${{ env.B_ARCH }}"
+          tag_name: "${{ env.B_ARCH }}"
+          prerelease: true
+          draft: false
+          generate_release_notes: false
+          body_path: "/tmp/RELEASE_NOTE.md"
+          files: |
+            /tmp/FLATIMAGES/*
+        continue-on-error: true
+
+     #Snapshot
+      - name: Releaser
+        if: env.HAS_RELEASE == 'TRUE'
+        uses: softprops/action-gh-release@v2.0.8
+        with:
+          name: "FLATIMAGE-(${{ env.FIM_VERSION}})-${{ env.UTC_TIME }} "
+          tag_name: "${{ env.UTC_TIME }}"
+          prerelease: false
+          draft: false
+          generate_release_notes: false
+          make_latest: false
+          body_path: "/tmp/RELEASE_NOTE.md"
+          files: |
+            /tmp/FLATIMAGES/*
+        continue-on-error: true
