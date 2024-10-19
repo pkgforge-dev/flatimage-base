@@ -7,7 +7,7 @@ on:
   #  - cron: "0 6 * * 3" # @ 06:00 AM UTC (11:45 AM NPT Morning Thu)
 jobs:
 #------------------------------------------------------------------------------------#
-  presetup:
+  build:
     runs-on: ubuntu-latest
     timeout-minutes: 180
     permissions: write-all
@@ -84,6 +84,15 @@ jobs:
             exit 1
           fi
         continue-on-error: true
+
+      - name: Fail (If Build Failed)
+        if: env.HAS_RELEASE == 'FALSE'
+        run: |
+          #presets
+          set +x ; set +e
+          #-------------#
+          exit 1
+        continue-on-error: false
 
       - name: Get Release ENV & Tags
         if: env.HAS_RELEASE == 'TRUE'
