@@ -148,7 +148,7 @@ jobs:
         uses: softprops/action-gh-release@v2.0.8
         with:
           name: "FLATIMAGE-(${{ env.FIM_VERSION}})-${{ env.UTC_TIME }} "
-          tag_name: "${{ env.UTC_TIME }}"
+          tag_name: "${{ env.UTC_TIME }}-${{ env.B_ARCH }}"
           prerelease: false
           draft: false
           generate_release_notes: false
