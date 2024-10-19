@@ -17,6 +17,7 @@
 > - [Stable/Tagged](https://github.com/Azathothas/flatimage-base/tags) Releases are also available at: https://github.com/Azathothas/flatimage-base/releases
 >
 > - `NOTE:` Flatimages based on `aarch64` may exhibit unexpected behavior, and not all distributions are supported.
+> - `NOTE:` These Base Images are as minimal as possible and have <ins>[all permissions enabled by default](https://flatimage.github.io/docs/cmd/perms/)</ins>. Details: https://flatimage.github.io/docs/cmd/perms/
 
 - #### Status
 > - [![🐧🧹 HealthChecks 🖳🗑️](https://github.com/Azathothas/flatimage-base/actions/workflows/healthchecks_housekeeping.yaml/badge.svg)](https://github.com/Azathothas/flatimage-base/actions/workflows/healthchecks_housekeeping.yaml)
