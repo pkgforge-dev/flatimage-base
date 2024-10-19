@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 ##DO NOT RUN DIRECTLY
-##Self: 
+##Self: bash <(curl -qfsSL "https://raw.githubusercontent.com/Azathothas/flatimage-base/refs/heads/main/void-musl_bootstrap.sh")
 #
 #-------------------------------------------------------#
 set -x
