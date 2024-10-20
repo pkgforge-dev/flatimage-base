@@ -4,6 +4,11 @@ sudo add-apt-repository -y ppa:graphics-drivers/ppa
 
 
 
+#Cachyos V4
+https://github.com/CachyOS/linux-cachyos?tab=readme-ov-file#how-to-add-cachyos-repositories
+
+The docker image can't be built in due to qemu itself, so I have to probably build it locally if I want to add a v4 cachyos....
+https://github.com/CachyOS/docker/pull/4
 
 
 #Steam on VOid
