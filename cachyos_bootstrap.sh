@@ -33,7 +33,8 @@ set +x
   docker run --name "cachyos" --privileged "cachyos/cachyos-v3:latest" bash -l -c '
   #Bootstrap
    pacman -y --sync --refresh --refresh --sysupgrade --noconfirm --debug
-   pacman -Sy bash binutils curl fakeroot wget --needed --noconfirm
+   packages="bash binutils curl fakechroot fakeroot wget"
+   for pkg in $packages; do pacman -Sy "$pkg" --needed --noconfirm ; done
   #Fake-Sudo
    curl -qfsSL "https://github.com/Azathothas/flatimage-base/releases/download/$(uname -m)/fake-sudo-pkexec.tar.zst" -o "./fake-sudo-pkexec.tar.zst" && chmod +x "./fake-sudo-pkexec.tar.zst"
    pacman -Uddd "./fake-sudo-pkexec.tar.zst" --noconfirm
