@@ -34,8 +34,11 @@ set +x
   #Bootstrap
    pacman -y --sync --refresh --refresh --sysupgrade --noconfirm --debug
    packages="bash binutils curl fakechroot fakeroot wget"
+   for pkg in $packages; do pacman -Sy "$pkg" --noconfirm ; done
    for pkg in $packages; do pacman -Sy "$pkg" --needed --noconfirm ; done
   #Fake-Sudo
+   pacman -Rsn sudo 2>/dev/null
+   rm -rvf "/usr/bin/sudo" 2>/dev/null
    curl -qfsSL "https://github.com/Azathothas/flatimage-base/releases/download/$(uname -m)/fake-sudo-pkexec.tar.zst" -o "./fake-sudo-pkexec.tar.zst" && chmod +x "./fake-sudo-pkexec.tar.zst"
    pacman -Uddd "./fake-sudo-pkexec.tar.zst" --noconfirm
    rm -rvf "./fake-sudo-pkexec.tar.zst"
