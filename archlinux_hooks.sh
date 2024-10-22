@@ -54,7 +54,7 @@ Target = *
 [Action]
 Description = Cleaning up downloaded files...
 When = PostTransaction
-Exec = /bin/sh -c 'rm -rf /var/cache/pacman/pkg/*'
+Exec = /bin/sh -c 'rm -rf /var/cache/pacman/pkg/* 2>/dev/null'
 EOF
 #Cleanup Locale
 tee "/etc/pacman.d/hooks/cleanup-locale.hook" << 'EOF'
@@ -68,7 +68,7 @@ Target = *
 [Action]
 Description = Cleaning up locale files...
 When = PostTransaction
-Exec = /bin/sh -c 'find /usr/share/locale -mindepth 1 -maxdepth 1 -type d -not -iname "en_us" -exec rm -rf "{}" \;'
+Exec = /bin/sh -c 'find /usr/share/locale -mindepth 1 -maxdepth 1 -type d -not -iname "en_us" -exec rm -rf "{}" 2>/dev/null \;'
 EOF
 #Cleanup Docs
 tee "/etc/pacman.d/hooks/cleanup-doc.hook" << 'EOF'
@@ -82,7 +82,7 @@ Target = *
 [Action]
 Description = Cleaning up doc...
 When = PostTransaction
-Exec = /bin/sh -c 'rm -rf /usr/share/doc/*'
+Exec = /bin/sh -c 'rm -rf /usr/share/doc/* 2>/dev/null'
 EOF
 #Cleanup Manpages
 tee "/etc/pacman.d/hooks/cleanup-man.hook" << 'EOF'
@@ -96,7 +96,7 @@ Target = *
 [Action]
 Description = Cleaning up man...
 When = PostTransaction
-Exec = /bin/sh -c 'rm -rf /usr/share/man/*'
+Exec = /bin/sh -c 'rm -rf /usr/share/man/* 2>/dev/null'
 EOF
 #Cleanup Fonts
 tee "/etc/pacman.d/hooks/cleanup-fonts.hook" << 'EOF'
@@ -110,6 +110,6 @@ Target = *
 [Action]
 Description = Cleaning up noto fonts...
 When = PostTransaction
-Exec = /bin/sh -c 'find /usr/share/fonts/noto -mindepth 1 -type f -not -iname "notosans-*" -and -not -iname "notoserif-*" -exec rm "{}" \;'
+Exec = /bin/sh -c 'find /usr/share/fonts/noto -mindepth 1 -type f -not -iname "notosans-*" -and -not -iname "notoserif-*" -exec rm "{}" 2>/dev/null \;'
 EOF
 ##END
