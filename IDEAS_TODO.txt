@@ -10,6 +10,71 @@ https://github.com/CachyOS/linux-cachyos?tab=readme-ov-file#how-to-add-cachyos-r
 The docker image can't be built in due to qemu itself, so I have to probably build it locally if I want to add a v4 cachyos....
 https://github.com/CachyOS/docker/pull/4
 
+#ppsspp on Arch/CachyOS
+pushd "$($TMPDIRS)" >/dev/null 2>&1
+       OWD="$(realpath .)" && export OWD="${OWD}"
+       export APP="ppsspp"
+       export PKG_NAME="${APP}.FlatImage"
+
+rsync -achLv "/opt/FLATIMAGE/cachyos" "${OWD}/cachyos"
+       export FIMG_BASE="${OWD}/cachyos"
+#Bootstrap
+"${FIMG_BASE}" fim-perms add "audio,dbus_user,dbus_system,gpu,home,input,media,network,udev,usb,xorg,wayland"
+"${FIMG_BASE}" fim-perms list
+"${FIMG_BASE}" fim-root bash -c '
+ #Sync
+ pacman -Syu --noconfirm
+ #Install Deps
+ packages=""
+ for pkg in $packages; do pacman -Sy "$pkg" --needed --noconfirm ; done
+ #Install
+ pacman ppsspp -Sy --noconfirm
+ pacman -Ql ppsspp
+ #Cleanup
+ pacman -Rsn base-devel --noconfirm
+ pacman -Rsn perl --noconfirm
+ pacman -Rsn python --noconfirm
+ pacman -Scc --noconfirm
+'
+#ENV
+"${FIMG_BASE}" fim-exec mkdir -p "/home/root"
+"${FIMG_BASE}" fim-env add 'USER=root' 'HOME=/home/root' 'XDG_CONFIG_HOME=/home/root/.config' 'XDG_DATA_HOME=/home/root/.local/share'
+"${FIMG_BASE}" fim-env list
+"${FIMG_BASE}" fim-boot "/usr/bin/PPSSPPQt"
+#Create
+"${FIMG_BASE}" fim-commit
+
+
+##ppsspp on Void
+pushd "$($TMPDIRS)" >/dev/null 2>&1
+       OWD="$(realpath .)" && export OWD="${OWD}"
+       export APP="ppsspp"
+       export PKG_NAME="${APP}.FlatImage"
+
+rsync -achLv "/opt/FLATIMAGE/void-glibc" "${OWD}/void-glibc"
+       export FIMG_BASE="${OWD}/void-glibc"
+#ppsspp on VOid
+#Bootstrap
+"${FIMG_BASE}" fim-perms add "audio,dbus_user,dbus_system,gpu,home,input,media,network,udev,usb,xorg,wayland"
+"${FIMG_BASE}" fim-perms list
+"${FIMG_BASE}" fim-root bash -c '
+ #Enable Repos
+ xbps-install void-repo-multilib void-repo-multilib-nonfree void-repo-nonfree --sync --update --yes
+ #Install Deps
+ packages=""
+ for pkg in $packages; do xbps-install "$pkg" --sync --update --yes ; done
+ #Finally Install ppsspp
+ xbps-install ppsspp --sync --update --yes
+ xbps-query -f ppsspp
+ xbps-remove --clean-cache --remove-orphans --recursive --verbose
+'
+#ENV
+"${FIMG_BASE}" fim-exec mkdir -p "/home/root"
+"${FIMG_BASE}" fim-env add 'USER=root' 'HOME=/home/root' 'XDG_CONFIG_HOME=/home/root/.config' 'XDG_DATA_HOME=/home/root/.local/share'
+"${FIMG_BASE}" fim-env list
+"${FIMG_BASE}" fim-boot "/usr/bin/ppsspp-headless"
+#Create
+"${FIMG_BASE}" fim-commit
 
 #Steam on VOid
 #Bootstrap
