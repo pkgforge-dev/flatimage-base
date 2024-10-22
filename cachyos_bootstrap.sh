@@ -36,15 +36,6 @@ set +x
    packages="bash binutils curl fakechroot fakeroot wget"
    for pkg in $packages; do pacman -Sy "$pkg" --noconfirm ; done
    for pkg in $packages; do pacman -Sy "$pkg" --needed --noconfirm ; done
-  #Fake-Sudo
-   pacman -Rsn sudo 2>/dev/null
-   rm -rvf "/usr/bin/sudo" 2>/dev/null
-   curl -qfsSL "https://github.com/Azathothas/flatimage-base/releases/download/$(uname -m)/fake-sudo-pkexec.tar.zst" -o "./fake-sudo-pkexec.tar.zst" && chmod +x "./fake-sudo-pkexec.tar.zst"
-   pacman -Uddd "./fake-sudo-pkexec.tar.zst" --noconfirm
-   rm -rvf "./fake-sudo-pkexec.tar.zst"
-  #Yay
-   curl -qfsSL "https://github.com/Azathothas/flatimage-base/releases/download/$(uname -m)/yay" -o "/usr/bin/yay" && chmod +x "/usr/bin/yay"
-   yay --version
   #Mirrors 
    #wget "https://bin.ajam.dev/$(uname -m)/rate-mirrors" -O "./rate-mirrors" && chmod +x "./rate-mirrors"
    #if [ "$(uname  -m)" == "aarch64" ]; then
@@ -78,12 +69,22 @@ set +x
    echo "en_US.UTF-8 UTF-8" | tee -a "/etc/locale.gen"
    echo "LC_ALL=en_US.UTF-8" | tee -a "/etc/environment"
    locale-gen ; locale-gen "en_US.UTF-8"
-  #Cleanup 
+  #Cleanup
    pacman -y --sync --refresh --refresh --sysupgrade --noconfirm
    pacman -Rsn base-devel --noconfirm
    pacman -Rsn perl --noconfirm
-   pacman -Rsn python --noconfirm     
+   pacman -Rsn python --noconfirm
    pacman -Scc --noconfirm
+  #Fake-Sudo
+   pacman -Rsndd sudo 2>/dev/null
+   rm -rvf "/usr/bin/sudo" 2>/dev/null
+   curl -qfsSL "https://github.com/Azathothas/flatimage-base/releases/download/$(uname -m)/fake-sudo-pkexec.tar.zst" -o "./fake-sudo-pkexec.tar.zst" && chmod +x "./fake-sudo-pkexec.tar.zst"
+   pacman -Uddd "./fake-sudo-pkexec.tar.zst" --noconfirm
+   rm -rvf "./fake-sudo-pkexec.tar.zst"
+  #Yay
+   curl -qfsSL "https://github.com/Azathothas/flatimage-base/releases/download/$(uname -m)/yay" -o "/usr/bin/yay" && chmod +x "/usr/bin/yay"
+   yay --version
+  #More cleanup
    rm -rfv "/usr/share/gtk-doc/"* 2>/dev/null
    rm -rfv "/usr/share/man/"* 2>/dev/null
    rm -rfv "/usr/share/help/"* 2>/dev/null
