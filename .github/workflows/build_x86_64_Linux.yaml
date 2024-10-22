@@ -70,6 +70,7 @@ jobs:
           "${GITHUB_WORKSPACE}/main/build.sh"
           eget "https://github.com/Jguer/yay" --asset "$(uname -m)" --file "yay" --to "/tmp/FLATIMAGES/yay"
           eget "https://github.com/Morganamilo/paru" --asset "$(uname -m)" --file "paru" --to "/tmp/FLATIMAGES/paru"
+          eget "https://github.com/VHSgunzo/runimage-fake-sudo-pkexec" --asset "any" --asset "tar.zst" --download-only --to "/tmp/FLATIMAGES/fake-sudo-pkexec.tar.zst"
           #Sanity Checks
           if [ -d "/tmp/FLATIMAGES" ] && [ "$(find "/tmp/FLATIMAGES" -mindepth 1 -print -quit 2>/dev/null)" ]; then
             #Gen Release Notes
