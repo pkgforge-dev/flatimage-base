@@ -149,6 +149,19 @@ jobs:
           echo -e "" >> "/tmp/RELEASE_NOTE.md"
         continue-on-error: true
 
+      #Artifacts
+      - name: Upload (Build) Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+            name: ARTIFACTS
+            path: |
+              /tmp/FLATIMAGES/*
+              /tmp/ROOTFS/*
+            compression-level: 0 #no compression, [Default: 6 (GNU Gzip)]
+            retention-days: 90 #max
+            overwrite: true
+        continue-on-error: true
+
      #continuous
       - name: Releaser (Continuous)
         if: env.HAS_RELEASE == 'TRUE'
