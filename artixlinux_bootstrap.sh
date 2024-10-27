@@ -24,6 +24,15 @@ fi
 set +x
 #-------------------------------------------------------#
 
+
+## No aarch64 docker yet: https://hub.docker.com/r/artixlinux/artixlinux
+## Though it does exist: https://wiki.artixlinux.org/Main/Aarch64
+## https://armtixlinux.org/
+## https://gitea.artixlinux.org/artixdocker/artixlinux-docker
+if [ "$(uname  -m)" == "aarch64" ]; then
+   exit 0
+fi
+
 #-------------------------------------------------------#
 ##ArtixLinux
  echo -e "\n[+] Creating ArtixLinux.FlatImage\n"

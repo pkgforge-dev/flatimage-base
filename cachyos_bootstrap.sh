@@ -24,6 +24,14 @@ fi
 set +x
 #-------------------------------------------------------#
 
+## No aarch64 docker yet: https://hub.docker.com/r/cachyos/cachyos/tags
+## Official Response: https://discuss.cachyos.org/t/arm-future-for-cachyos/727/2
+## https://github.com/CachyOS/docker
+if [ "$(uname  -m)" == "aarch64" ]; then
+   exit 0
+fi
+
+
 #-------------------------------------------------------#
 ##CachyOS
  echo -e "\n[+] Creating CachyOS.FlatImage\n"
