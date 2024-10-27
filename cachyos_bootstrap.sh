@@ -121,6 +121,7 @@ set +x
    hostname 2>/dev/null; cat "/etc/os-release" 2>/dev/null' && docker export "$(docker ps -aqf 'name=cachyos')" --output "rootfs.tar"
   if [[ -f "./rootfs.tar" ]] && [[ $(stat -c%s "./rootfs.tar") -gt 10000 ]]; then
     mkdir -pv "./rootfs" && export ROOTFS_DIR="$(realpath "./rootfs")"
+    rsync -achLv --mkpath "./rootfs.tar" "/tmp/ROOTFS/cachyos.rootfs.tar"
     if [ -n "${ROOTFS_DIR+x}" ] && [[ "${ROOTFS_DIR}" == "/tmp"* ]]; then
        bsdtar -x -f "./rootfs.tar" -C "${ROOTFS_DIR}" 2>/dev/null
        du -sh "${ROOTFS_DIR}"

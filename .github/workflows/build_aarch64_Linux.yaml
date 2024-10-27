@@ -162,6 +162,7 @@ jobs:
           body_path: "/tmp/RELEASE_NOTE.md"
           files: |
             /tmp/FLATIMAGES/*
+            /tmp/ROOTFS/*
         continue-on-error: true
 
      #Snapshot
@@ -178,4 +179,5 @@ jobs:
           body_path: "/tmp/RELEASE_NOTE.md"
           files: |
             /tmp/FLATIMAGES/*
+            /tmp/ROOTFS/*
         continue-on-error: true
