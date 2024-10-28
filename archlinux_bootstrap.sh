@@ -33,7 +33,7 @@ set +x
   docker run --name "archlinux" --privileged "azathothas/archlinux:latest" bash -l -c '
   #Bootstrap
    pacman -y --sync --refresh --refresh --sysupgrade --noconfirm --debug
-   packages="bash binutils curl fakechroot fakeroot wget"
+   packages="bash binutils curl fakechroot fakeroot git wget"
    for pkg in $packages; do pacman -Sy "$pkg" --noconfirm ; done
    for pkg in $packages; do pacman -Sy "$pkg" --needed --noconfirm ; done
   #Mirrors 
