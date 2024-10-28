@@ -110,9 +110,9 @@ set +x
    find "/usr/share/help" -mindepth 1 -delete 2>/dev/null
    find "/usr/share/info" -mindepth 1 -delete 2>/dev/null
    find "/usr/share/man" -mindepth 1 -delete 2>/dev/null
-   find "" -type d -name "__pycache__" -exec rm -rfv "{}" \; 2>/dev/null
-   find "" -type f -name "*.pacnew" -exec rm -rfv "{}" \; 2>/dev/null
-   find "" -type f -name "*.pacsave" -exec rm -rfv "{}" \; 2>/dev/null
+   find "." -type d -name "__pycache__" -exec rm -rfv "{}" \; 2>/dev/null
+   find "." -type f -name "*.pacnew" -exec rm -rfv "{}" \; 2>/dev/null
+   find "." -type f -name "*.pacsave" -exec rm -rfv "{}" \; 2>/dev/null
    find "/var/log" -type f -name "*.log" -exec rm -rfv "{}" \; 2>/dev/null
    rm -rfv "/"{tmp,proc,sys,dev,run} 2>/dev/null
    mkdir -pv "/"{tmp,proc,sys,dev,run/media,mnt,media,home}  2>/dev/null
