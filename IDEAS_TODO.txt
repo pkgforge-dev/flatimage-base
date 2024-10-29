@@ -97,3 +97,47 @@ rsync -achLv "/opt/FLATIMAGE/void-glibc" "${OWD}/void-glibc"
 "${FIMG_BASE}" fim-boot "/usr/sbin/steam"
 #Create
 "${FIMG_BASE}" fim-commit
+
+
+
+##nix on alpine
+pushd "$(mktemp -d)" >/dev/null 2>&1
+docker stop "alpine-nix" 2>/dev/null ; docker rm "alpine-nix" 2>/dev/null
+docker run --name "alpine-nix" --pull="always" "alpine:edge" sh -c '
+apk update --no-interactive
+#DO NOT USE --update | --latest, it breaks
+apk add nix --no-interactive
+apk info nix -L
+nix-channel --add "https://nixos.org/channels/nixos-unstable" "nixpkgs"
+nix-channel --list && nix-channel --update
+nix derivation show "nixpkgs#hello" --extra-experimental-features flakes --extra-experimental-features nix-command
+chmod 755 "/bin/bbsuid"
+rm -rfv "/var/cache/apk/"* 2>/dev/null
+rm -rfv "/usr/share/fonts/"* 2>/dev/null
+rm -rfv "/usr/share/licenses/"* 2>/dev/null
+rm -rfv "/usr/share/locale/"* 2>/dev/null
+rm -rfv "/usr/share/man/"* 2>/dev/null
+nix-collect-garbage ; apk cache clean
+'
+docker export "$(docker ps -aqf 'name=alpine-nix')" --output "rootfs.tar"
+mkdir -p "./root" ; bsdtar -x -f "rootfs.tar" -C "./root"
+
+proot --kill-on-exit -R "./root" /bin/sh -c 'nix-shell -p librewolf --run "librewolf"'
+
+
+apk update --no-interactive
+apk add nix --force --latest --upgrade --no-interactive
+
+  apk add bash coreutils curl shadow sudo tar xz --force --latest --upgrade --no-interactiv
+
+sh <(curl -qfsSL "https://nixos.org/nix/install") --no-daemon
+
+
+
+curl -qfsSL "https://install.determinate.systems/nix" | bash -s -- install linux --init none --extra-conf "filter-syscalls = false" --no-confirm
+#Source
+source "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
+#Fix perms: could not set permissions on '/nix/var/nix/profiles/per-user' to 755: Operation not permitted
+#sudo chown --recursive "${USER}" "/nix"
+sudo chown --recursive "root" "/nix"
+echo "root    ALL=(ALL:ALL) ALL" | sudo tee -a "/etc/sudoers"
