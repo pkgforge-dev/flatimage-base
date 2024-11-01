@@ -1,7 +1,8 @@
 ```mathematica
-156K └─┬ main
+168K └─┬ main
  16K   ├── build.sh
  16K   ├── archlinux_bootstrap.sh.old
+ 12K   ├── eweos_bootstrap.sh
  12K   ├── cachyos_bootstrap.sh.old
  12K   ├── cachyos_bootstrap.sh
  12K   ├── artixlinux_bootstrap.sh.old
