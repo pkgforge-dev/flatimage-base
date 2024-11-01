@@ -75,9 +75,9 @@ set +x
    pacman -Uddd "./fake-sudo-pkexec.tar.zst" --noconfirm
    pacman -Syy fakeroot --needed --noconfirm
    rm -rvf "./fake-sudo-pkexec.tar.zst"
-  #Yay
-   curl -qfsSL "https://github.com/Azathothas/flatimage-base/releases/download/$(uname -m)/yay" -o "/usr/bin/yay" && chmod +x "/usr/bin/yay"
-   yay --version  ; which fakeroot yay sudo
+  ##Yay
+  # curl -qfsSL "https://github.com/Azathothas/flatimage-base/releases/download/$(uname -m)/yay" -o "/usr/bin/yay" && chmod +x "/usr/bin/yay"
+  # yay --version  ; which fakeroot yay sudo
   #More cleanup
    rm -rfv "/usr/share/gtk-doc/"* 2>/dev/null
    rm -rfv "/usr/share/man/"* 2>/dev/null
