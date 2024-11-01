@@ -205,6 +205,11 @@ bash <(curl -qfsSL "https://raw.githubusercontent.com/Azathothas/flatimage-base/
 #-------------------------------------------------------#
 
 #-------------------------------------------------------#
+##eweOS (nightly): https://github.com/eweOS/docker
+bash <(curl -qfsSL "https://raw.githubusercontent.com/Azathothas/flatimage-base/refs/heads/main/eweos_bootstrap.sh") || true
+#-------------------------------------------------------#
+
+#-------------------------------------------------------#
 ##Ubuntu (phusion/baseimage)
 bash <(curl -qfsSL "https://raw.githubusercontent.com/Azathothas/flatimage-base/refs/heads/main/ubuntu_bootstrap.sh") || true
 #-------------------------------------------------------#
