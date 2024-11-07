@@ -176,52 +176,52 @@
 
 #-------------------------------------------------------#
 ##Alpine
-bash <(curl -qfsSL "https://raw.githubusercontent.com/Azathothas/flatimage-base/refs/heads/main/alpine_bootstrap.sh") || true
+bash <(curl -qfsSL "https://raw.githubusercontent.com/pkgforge/flatimage-base/refs/heads/main/alpine_bootstrap.sh") || true
 #-------------------------------------------------------#
 
 #-------------------------------------------------------#
 ##ArchLinux
-bash <(curl -qfsSL "https://raw.githubusercontent.com/Azathothas/flatimage-base/refs/heads/main/archlinux_bootstrap.sh") || true
+bash <(curl -qfsSL "https://raw.githubusercontent.com/pkgforge/flatimage-base/refs/heads/main/archlinux_bootstrap.sh") || true
 #-------------------------------------------------------#
 
 #-------------------------------------------------------#
 ##ArtixLinux
-bash <(curl -qfsSL "https://raw.githubusercontent.com/Azathothas/flatimage-base/refs/heads/main/artixlinux_bootstrap.sh") || true
+bash <(curl -qfsSL "https://raw.githubusercontent.com/pkgforge/flatimage-base/refs/heads/main/artixlinux_bootstrap.sh") || true
 #-------------------------------------------------------#
 
 #-------------------------------------------------------#
 ##Blueprint (NO OS)
-bash <(curl -qfsSL "https://raw.githubusercontent.com/Azathothas/flatimage-base/refs/heads/main/blueprint_bootstrap.sh") || true
+bash <(curl -qfsSL "https://raw.githubusercontent.com/pkgforge/flatimage-base/refs/heads/main/blueprint_bootstrap.sh") || true
 #-------------------------------------------------------#
 
 #-------------------------------------------------------#
 ##cachyos (V3)
-bash <(curl -qfsSL "https://raw.githubusercontent.com/Azathothas/flatimage-base/refs/heads/main/cachyos_bootstrap.sh") || true
+bash <(curl -qfsSL "https://raw.githubusercontent.com/pkgforge/flatimage-base/refs/heads/main/cachyos_bootstrap.sh") || true
 #-------------------------------------------------------#
 
 #-------------------------------------------------------#
 ##Debian (Stable:Slim)
-bash <(curl -qfsSL "https://raw.githubusercontent.com/Azathothas/flatimage-base/refs/heads/main/debian_bootstrap.sh") || true
+bash <(curl -qfsSL "https://raw.githubusercontent.com/pkgforge/flatimage-base/refs/heads/main/debian_bootstrap.sh") || true
 #-------------------------------------------------------#
 
 #-------------------------------------------------------#
 ##eweOS (nightly): https://github.com/eweOS/docker
-bash <(curl -qfsSL "https://raw.githubusercontent.com/Azathothas/flatimage-base/refs/heads/main/eweos_bootstrap.sh") || true
+bash <(curl -qfsSL "https://raw.githubusercontent.com/pkgforge/flatimage-base/refs/heads/main/eweos_bootstrap.sh") || true
 #-------------------------------------------------------#
 
 #-------------------------------------------------------#
 ##Ubuntu (phusion/baseimage)
-bash <(curl -qfsSL "https://raw.githubusercontent.com/Azathothas/flatimage-base/refs/heads/main/ubuntu_bootstrap.sh") || true
+bash <(curl -qfsSL "https://raw.githubusercontent.com/pkgforge/flatimage-base/refs/heads/main/ubuntu_bootstrap.sh") || true
 #-------------------------------------------------------#
 
 #-------------------------------------------------------#
 ##Void (GLIBC)
-bash <(curl -qfsSL "https://raw.githubusercontent.com/Azathothas/flatimage-base/refs/heads/main/void-glibc_bootstrap.sh") || true
+bash <(curl -qfsSL "https://raw.githubusercontent.com/pkgforge/flatimage-base/refs/heads/main/void-glibc_bootstrap.sh") || true
 #-------------------------------------------------------#
 
 #-------------------------------------------------------#
 ##Void (MUSL)
-bash <(curl -qfsSL "https://raw.githubusercontent.com/Azathothas/flatimage-base/refs/heads/main/void-musl_bootstrap.sh") || true
+bash <(curl -qfsSL "https://raw.githubusercontent.com/pkgforge/flatimage-base/refs/heads/main/void-musl_bootstrap.sh") || true
 #-------------------------------------------------------#
 
 #-------------------------------------------------------#

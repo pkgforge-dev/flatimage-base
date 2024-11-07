@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 ##DO NOT RUN DIRECTLY
-##Self: bash <(curl -qfsSL "https://raw.githubusercontent.com/Azathothas/flatimage-base/refs/heads/main/archlinux_bootstrap.sh")
+##Self: bash <(curl -qfsSL "https://raw.githubusercontent.com/pkgforge/flatimage-base/refs/heads/main/archlinux_bootstrap.sh")
 #
 #-------------------------------------------------------#
 set -x
@@ -81,7 +81,7 @@ set +x
        #timeout 30s sudo chroot "${ROOTFS_DIR}" "/bin/bash" -c 'pacman-key --populate archlinux'
        timeout 30s sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" "/bin/bash" -c 'pacman-key --populate archlinux'
        sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" "/bin/bash" -c 'pacman -y --sync --refresh --refresh --sysupgrade --noconfirm --debug'
-       sudo curl -qfsSL "https://raw.githubusercontent.com/Azathothas/flatimage-base/refs/heads/main/archlinux_hooks.sh" -o "${ROOTFS_DIR}/arch_hooks.sh"
+       sudo curl -qfsSL "https://raw.githubusercontent.com/pkgforge/flatimage-base/refs/heads/main/archlinux_hooks.sh" -o "${ROOTFS_DIR}/arch_hooks.sh"
        sudo chmod +x "${ROOTFS_DIR}/arch_hooks.sh"
        sudo "${FIM_BINDIR}/proot" --kill-on-exit -R "${ROOTFS_DIR}" "/bin/bash" -c '"/arch_hooks.sh"'
        sudo rm -rfv "${ROOTFS_DIR}/arch_hooks.sh"

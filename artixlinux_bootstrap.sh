@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 ##DO NOT RUN DIRECTLY
-##Self: bash <(curl -qfsSL "https://raw.githubusercontent.com/Azathothas/flatimage-base/refs/heads/main/artixlinux_bootstrap.sh")
+##Self: bash <(curl -qfsSL "https://raw.githubusercontent.com/pkgforge/flatimage-base/refs/heads/main/artixlinux_bootstrap.sh")
 #
 #-------------------------------------------------------#
 set -x
@@ -68,7 +68,7 @@ fi
    cat "/var/lib/dbus/machine-id" | tee "/etc/machine-id"
    pacman -Scc --noconfirm
    echo "disable-scdaemon" | tee "/etc/pacman.d/gnupg/gpg-agent.conf"
-   curl -qfsSL "https://raw.githubusercontent.com/Azathothas/flatimage-base/refs/heads/main/archlinux_hooks.sh" -o "/arch_hooks.sh"
+   curl -qfsSL "https://raw.githubusercontent.com/pkgforge/flatimage-base/refs/heads/main/archlinux_hooks.sh" -o "/arch_hooks.sh"
    chmod +x "/arch_hooks.sh" ; "/arch_hooks.sh"
    rm -rfv "/arch_hooks.sh"
    echo "LANG=en_US.UTF-8" | tee "/etc/locale.conf"
@@ -87,12 +87,12 @@ fi
   #Fake-Sudo
    pacman -Rsndd sudo 2>/dev/null
    rm -rvf "/usr/bin/sudo" 2>/dev/null
-   curl -qfsSL "https://github.com/Azathothas/flatimage-base/releases/download/$(uname -m)/fake-sudo-pkexec.tar.zst" -o "./fake-sudo-pkexec.tar.zst" && chmod +x "./fake-sudo-pkexec.tar.zst"
+   curl -qfsSL "https://github.com/pkgforge/flatimage-base/releases/download/$(uname -m)/fake-sudo-pkexec.tar.zst" -o "./fake-sudo-pkexec.tar.zst" && chmod +x "./fake-sudo-pkexec.tar.zst"
    pacman -Uddd "./fake-sudo-pkexec.tar.zst" --noconfirm
    pacman -Syy fakeroot --needed --noconfirm
    rm -rvf "./fake-sudo-pkexec.tar.zst"
   #Yay
-   curl -qfsSL "https://github.com/Azathothas/flatimage-base/releases/download/$(uname -m)/yay" -o "/usr/bin/yay" && chmod +x "/usr/bin/yay"
+   curl -qfsSL "https://github.com/pkgforge/flatimage-base/releases/download/$(uname -m)/yay" -o "/usr/bin/yay" && chmod +x "/usr/bin/yay"
    yay --version  ; which fakeroot yay sudo
   #More cleanup
    rm -rfv "/usr/share/gtk-doc/"* 2>/dev/null

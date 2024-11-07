@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 ##DO NOT RUN DIRECTLY
-##Self: bash <(curl -qfsSL "https://raw.githubusercontent.com/Azathothas/flatimage-base/refs/heads/main/void-glibc_bootstrap.sh")
+##Self: bash <(curl -qfsSL "https://raw.githubusercontent.com/pkgforge/flatimage-base/refs/heads/main/void-glibc_bootstrap.sh")
 #
 #-------------------------------------------------------#
 set -x
