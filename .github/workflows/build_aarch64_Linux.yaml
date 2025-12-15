@@ -151,7 +151,7 @@ jobs:
 
       #Artifacts
       - name: Upload (Build) Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
             name: ARTIFACTS
             path: |
